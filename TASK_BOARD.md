@@ -20,14 +20,14 @@ Each task specifies a recommended agent type. When starting work, spin up an age
 
 | ID | Task | Agent Type | Depends On | Status |
 |----|------|-----------|------------|--------|
-| T001 | [Monorepo scaffold with Docker Compose](tasks/phase-1/T001-monorepo-scaffold.md) | scaffold-agent | — | PENDING |
-| T002 | [PostgreSQL setup with Prisma ORM](tasks/phase-1/T002-postgresql-prisma-setup.md) | backend-agent | T001 | PENDING |
-| T003 | [Auth integration with Clerk](tasks/phase-1/T003-auth-integration.md) | backend-agent | T002 | PENDING |
-| T004 | [Project CRUD API](tasks/phase-1/T004-project-crud-api.md) | backend-agent | T002, T003 | PENDING |
-| T005 | [Semantic chunking engine](tasks/phase-1/T005-semantic-chunking-engine.md) | pipeline-agent | T001 | PENDING |
-| T006 | [Embedding generation and vector storage](tasks/phase-1/T006-embedding-vector-storage.md) | pipeline-agent | T002 | PENDING |
-| T007 | [Document upload and processing pipeline](tasks/phase-1/T007-document-processing-pipeline.md) | backend-agent | T004, T005, T006 | PENDING |
-| T008 | [Semantic search endpoint](tasks/phase-1/T008-semantic-search-endpoint.md) | backend-agent | T006 | PENDING |
+| T001 | [Monorepo scaffold with Docker Compose](tasks/phase-1/T001-monorepo-scaffold.md) | scaffold-agent | — | DONE |
+| T002 | [PostgreSQL setup with Prisma ORM](tasks/phase-1/T002-postgresql-prisma-setup.md) | backend-agent | T001 | DONE |
+| T003 | [Auth integration with Clerk](tasks/phase-1/T003-auth-integration.md) | backend-agent | T002 | DONE |
+| T004 | [Project CRUD API](tasks/phase-1/T004-project-crud-api.md) | backend-agent | T002, T003 | DONE |
+| T005 | [Semantic chunking engine](tasks/phase-1/T005-semantic-chunking-engine.md) | pipeline-agent | T001 | DONE |
+| T006 | [Embedding generation and vector storage](tasks/phase-1/T006-embedding-vector-storage.md) | pipeline-agent | T002 | DONE |
+| T007 | [Document upload and processing pipeline](tasks/phase-1/T007-document-processing-pipeline.md) | backend-agent | T004, T005, T006 | DONE |
+| T008 | [Semantic search endpoint](tasks/phase-1/T008-semantic-search-endpoint.md) | backend-agent | T006 | DONE |
 
 ## Phase 2 — Context Intelligence Engine
 
