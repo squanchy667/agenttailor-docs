@@ -8,37 +8,50 @@
 - Handle loading, error, and empty states
 - Accessible: aria labels, keyboard navigation, semantic HTML
 
-## Core Components
+## Dashboard Components
 
-<!-- Components will be defined during planning -->
+### UI Primitives (dashboard/src/components/ui/)
+- Button, Input, TextArea, Card, Modal, Spinner, Badge
+- Toast (notification system), Skeleton (loading placeholders)
+- EmptyState, ErrorBanner
 
-_Awaiting implementation planning._
+### Layout (dashboard/src/components/layout/)
+- AppLayout — Sidebar + header + content
+- Sidebar — Navigation links
+- Header — Branding + user menu
 
-## Layout Components
+### Feature Components
+- **Projects** — ProjectCard, ProjectForm
+- **Documents** — DocumentUploader (drag-and-drop), DocumentList, DocumentStatus, ProcessingProgress
+- **Tailoring** — TailorForm, ContextViewer, SourceCard, SessionHistory
+- **Analytics** — UsageChart, QualityTrend, ProjectStats, PlanUsage
+- **Settings** — ApiKeyManager, ContextPreferences, NotificationSettings
 
-<!-- Layout components will be defined during planning -->
+## Extension Components
 
-_Awaiting implementation planning._
+### Side Panel (extension/src/sidepanel/)
+- StatusIndicator — Tailoring progress
+- ContextPreview — Assembled context display
+- SourceList — Source origins with relevance scores
+- EditableContext — User-editable context before injection
 
-## Form Components
-
-<!-- Form components will be defined during planning -->
-
-_Awaiting implementation planning._
+### Popup (extension/src/popup/)
+- ProjectSelector — Active project picker
+- QuickSettings — Toggle auto-tailor, web search
 
 ## Shared Patterns
 
 ### Loading State
 ```tsx
-if (loading) return <Spinner />;
+if (isLoading) return <Skeleton variant="card" />;
 ```
 
 ### Error State
 ```tsx
-if (error) return <ErrorBanner message={error.message} />;
+if (error) return <ErrorBanner message={error.message} onRetry={refetch} />;
 ```
 
 ### Empty State
 ```tsx
-if (items.length === 0) return <EmptyState message="No items found" />;
+if (items.length === 0) return <EmptyState message="No projects yet" action={<Button>Create Project</Button>} />;
 ```

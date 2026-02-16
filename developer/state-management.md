@@ -3,11 +3,29 @@
 ## Approach
 
 - Zod schemas as single source of truth for data shapes
-- Server state managed by React Query
-- Client state managed by React state/context
-- Form state with controlled components and Zod validation
+- Server-side state in PostgreSQL + Redis + vector stores
+- Dashboard state via React Query for server data
+- Extension state via Chrome storage API
 
 ## Server State
+
+### PostgreSQL (persistent)
+- Users, projects, documents, tailoring sessions, web search results
+- Managed via Prisma ORM with typed queries
+- Migrations for schema evolution
+
+### Redis (ephemeral)
+- Rate limit counters per user
+- Cached context chunks for frequently-accessed projects
+- Session state for active tailoring operations
+- Bull job queue metadata
+
+### Vector Store (embeddings)
+- ChromaDB for local development
+- Pinecone for production
+- Document chunk embeddings with metadata (doc_id, position, headings)
+
+## Dashboard State
 
 Managed with React Query (@tanstack/react-query):
 - Automatic caching and refetching
@@ -16,19 +34,13 @@ Managed with React Query (@tanstack/react-query):
 
 ```tsx
 const { data, isLoading, error } = useQuery({
-  queryKey: ['resource', id],
-  queryFn: () => fetchResource(id),
+  queryKey: ['projects', projectId],
+  queryFn: () => fetchProject(projectId),
 });
 ```
 
-## Client State
+## Extension State
 
-- React `useState` for local component state
-- React Context for shared UI state (theme, sidebar, modals)
-- Avoid global state when React Query covers the use case
-
-## Form State
-
-- Controlled form components with Zod schema validation
-- Validation on blur and submit
-- Error messages derived from Zod parse errors
+- **Chrome Storage API** — Persistent settings (active project, API endpoint, preferences)
+- **Runtime Messages** — Communication between content scripts, service worker, and side panel
+- **In-memory** — Current tailoring state, preview content
