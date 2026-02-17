@@ -16,6 +16,7 @@
 * [Component Library](developer/component-library.md)
 * [State Management](developer/state-management.md)
 * [Routing Patterns](developer/routing-patterns.md)
+* [Execution State](developer/execution-state.md)
 
 ## Product
 
