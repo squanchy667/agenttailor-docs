@@ -6,6 +6,37 @@ All notable changes to AgentTailor will be documented in this file.
 
 <!-- Entries added automatically by /sync-docs and /execute-phase -->
 
+## [2026-02-18] v1.1 — Local Mode (Plug-and-Play)
+
+Zero API keys, zero accounts. `git clone → npm run setup → npm run dev`.
+
+### Batch 1 — Foundation
+- T041: Made Prisma `clerkId` optional, updated Zod schemas for local user support — DONE
+- T046: Fixed MCP server default port (3000 → 4000) to match server — DONE
+- T047: Created `.env.local.example` and added AUTH_MODE/EMBEDDING_PROVIDER to `.env.example` — DONE
+- T049: Added NoopCrossEncoder for local mode (no external reranking API needed) — DONE
+
+### Batch 2 — Core Implementations
+- T042: Created local auth middleware (auto-created PRO user, no Clerk dependency) — DONE
+- T044: Added local embedder with `@xenova/transformers` (all-MiniLM-L6-v2, 384 dims) — DONE
+- T048: Setup script (`npm run setup`) with seed data and Docker orchestration — DONE
+- T050: Softened MCP server API key warning for local mode — DONE
+
+### Batch 3 — Wiring
+- T043: Created auth mode router with dynamic imports (AUTH_MODE=local|clerk) — DONE
+- T045: Made embedding config defaults dynamic based on EMBEDDING_PROVIDER — DONE
+
+### Batch 4 — Polish
+- T051: Updated README with local quickstart and MCP config snippet — DONE
+- T052: Added local mode smoke tests (auth, embedder, cross-encoder factories) — DONE
+
+### Additional Fixes (discovered during local testing)
+- Dashboard dual-mode auth abstraction (`authProvider.tsx`) — no Clerk keys needed in local mode
+- Document worker startup (was defined but never called)
+- Docker port conflict resolution (postgres 5433, chromadb 8100)
+- Prisma cuid compatibility (replaced `.uuid()` with `.min(1)` in Zod schemas)
+- 162 tests passing, 10 documents processed into 60 chunks end-to-end
+
 ## [2026-02-18] Phase 8 — Polish & Launch
 
 ### Batch 1
