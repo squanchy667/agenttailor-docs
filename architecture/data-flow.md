@@ -102,6 +102,71 @@ POST /api/tailor
 Response: { tailoredContext, sources, tokenCount, qualityScore, suggestions }
 ```
 
+## Agent Generation Flow (Pipeline B)
+
+```
+User describes agent requirement (role, stack, description)
+       │
+       ▼
+POST /api/agents/generate
+  { role, stack[], domain, description, targetFormat, projectId? }
+       │
+       ▼
+┌─── Agent Orchestrator ─────────────────────────────┐
+│                                                     │
+│  1. Requirement Analyzer                           │
+│     Input: description                             │
+│     Output: { role, stack[], domain, complexity,   │
+│              suggestedModel, searchQueries[] }     │
+│                                                     │
+│  2. Config Library Search                          │
+│     Query: curated ConfigTemplate index            │
+│     Filter: matching stack, domain, category       │
+│     Output: scored curated configs                 │
+│                                                     │
+│  3. Online Config Discovery                        │
+│     Tiered web search:                             │
+│       Tier 1: site:github.com .claude agents       │
+│       Tier 2: .cursorrules {framework}             │
+│       Tier 3: system prompt {role} {stack}         │
+│     Deduplicate: Jaccard similarity > 0.7          │
+│     Output: discovered ConfigSource[]              │
+│                                                     │
+│  4. Config Scorer                                  │
+│     Score: Specificity (1-5) + Relevance (1-5)     │
+│     Filter: combined >= 7/10                       │
+│     Assess: confidence (high/medium/low)           │
+│                                                     │
+│  5. Project Doc Retrieval (if projectId)           │
+│     Retrieve: relevant chunks from vector store    │
+│     Compress: reuse contextCompressor              │
+│                                                     │
+│  6. Agent Generator                                │
+│     Merge: conventions (project > score > specific)│
+│     Union: tools from all passing configs          │
+│     Assign: model tier by complexity               │
+│     Build: source attribution                      │
+│                                                     │
+│  7. Format Exporter                                │
+│     Claude Code → YAML frontmatter + markdown      │
+│     Cursor Rules → flat text with conventions      │
+│     System Prompt → role + instructions + context  │
+│                                                     │
+│  8. Agent Quality Scorer                           │
+│     Score: config coverage (0.30),                 │
+│            context depth (0.25),                   │
+│            specificity (0.25),                     │
+│            source diversity (0.20)                 │
+│                                                     │
+│  9. Persist Session                                │
+│     Save: AgentConfig + AgentSession to PostgreSQL │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+       │
+       ▼
+Response: { sessionId, exportedContent, qualityScore, confidence, configSourceCount }
+```
+
 ## Browser Extension Flow
 
 ```

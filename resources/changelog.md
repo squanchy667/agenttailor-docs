@@ -6,6 +6,60 @@ All notable changes to AgentTailor will be documented in this file.
 
 <!-- Entries added automatically by /sync-docs and /execute-phase -->
 
+## [2026-02-18] v1.2 — Agent Factory Pipeline
+
+Dual-pipeline architecture: Pipeline A (context assembly, existing) + Pipeline B (agent generation, new). Create specialized AI agents by combining curated/discovered online configs with project documentation.
+
+### Schemas & Data Model
+- 5 new Zod schemas: AgentRequirement, AgentConfig, ConfigSource, ConfigTemplate, AgentSession
+- 3 new Prisma models: AgentConfig, ConfigTemplate, AgentSession + AgentFormat enum
+
+### Config Discovery Engine
+- Config parser: normalize Claude Code agents (YAML frontmatter), Cursor rules, system prompts
+- Config discovery: tiered web search for proven configs (site:github.com .claude agents, .cursorrules, etc.)
+- Config scorer: Specificity (1-5) + Relevance (1-5) scoring, combined >= 7/10 threshold
+- Config library: curated index with CRUD, search by stack/domain/category
+- Seed script: 9 built-in config templates (scaffold, backend, frontend, LLM, infra, test, docs, security agents + React TypeScript Cursor Rules)
+
+### Agent Generation Pipeline
+- Requirement analyzer: detect stack, role, domain, complexity from description
+- Agent generator: merge conventions + tools from scored configs + project docs
+- Format exporter: Claude Code agent (.md), Cursor rules (.cursorrules), System prompt (plain text)
+- Agent orchestrator: 10-step pipeline with graceful degradation at every stage
+- Agent quality scorer: 4 weighted dimensions (config coverage, context depth, specificity, source diversity)
+
+### API Routes
+- `POST /api/agents/generate` — full agent generation pipeline
+- `POST /api/agents/preview` — fast estimate (no LLM)
+- `GET /api/agents` — list user's generated agents
+- `GET /api/agents/:id` — agent details
+- `POST /api/agents/:id/export` — re-export in different format
+- `DELETE /api/agents/:id` — delete agent
+- `GET /api/configs/library` — browse curated config templates
+- `GET /api/configs/library/:id` — config template details
+- `POST /api/configs/search` — online config discovery
+
+### Dashboard
+- Agent Builder page: requirement form, live generation, quality score, export
+- Agent Library page: browse curated configs, search/filter, "Use as Starting Point"
+- Agent Detail page: view/edit agent, re-export, quality breakdown, source attribution
+- 6 new components: AgentRequirementForm, FormatSelector, AgentPreview, AgentExporter, ConfigLibraryBrowser, ConfigSourceList
+
+### Extension
+- Agent Builder tab added to sidepanel alongside Context tab
+- Compact agent generation form with role/stack/description inputs
+- Format selector (Claude/Cursor/System Prompt)
+
+### MCP Server
+- `generate_agent` tool — full agent generation from requirement
+- `browse_config_library` tool — search curated config templates
+- `export_agent` tool — re-export agent in different format
+
+### Stats
+- 31 new files, 9 modified files, 4,330 lines added
+- All 162 existing tests still passing
+- TypeScript typecheck clean across all 6 packages
+
 ## [2026-02-18] v1.1 — Local Mode (Plug-and-Play)
 
 Zero API keys, zero accounts. `git clone → npm run setup → npm run dev`.

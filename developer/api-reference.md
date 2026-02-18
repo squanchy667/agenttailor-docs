@@ -73,6 +73,30 @@ GET /api/settings → UserSettings
 PUT /api/settings → UserSettings
 ```
 
+### Agent Factory
+```
+POST   /api/agents/generate     → { sessionId, exportedContent, qualityScore, confidence, configSourceCount, processingTimeMs }
+  Body: { role, stack[], domain, description, targetFormat: "CLAUDE_AGENT"|"CURSOR_RULES"|"SYSTEM_PROMPT", projectId? }
+
+POST   /api/agents/preview      → { estimatedQuality, matchingConfigs, suggestedModel }
+  Body: { role, stack[], domain, description, targetFormat }
+
+GET    /api/agents              → AgentConfig[] (paginated, ?page=1&limit=20)
+GET    /api/agents/:id          → AgentConfig (with session metadata)
+POST   /api/agents/:id/export   → { content, format }
+  Body: { format: "CLAUDE_AGENT"|"CURSOR_RULES"|"SYSTEM_PROMPT" }
+DELETE /api/agents/:id          → 204
+```
+
+### Config Library
+```
+GET    /api/configs/library      → { templates: ConfigTemplate[], total }
+  Query: ?stack=react&domain=web&category=frontend&q=search+term
+GET    /api/configs/library/:id  → ConfigTemplate
+POST   /api/configs/search       → { sources: ConfigSource[] }
+  Body: { stack[], role?, domain? }
+```
+
 ### Analytics
 ```
 GET /api/analytics → { sessions, qualityTrend, projectStats, planUsage }

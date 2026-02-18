@@ -37,6 +37,24 @@
 │  └──────────────────────────────────────────────────────┘    │
 │                                                              │
 │  ┌──────────────────────────────────────────────────────┐    │
+│  │              /api/agents (PIPELINE B — Agent Factory) │    │
+│  │                                                      │    │
+│  │  Requirement Analyzer ──► Config Library Search      │    │
+│  │       │                        │                     │    │
+│  │       ▼                        ▼                     │    │
+│  │  Config Discovery (web) ──► Config Scorer            │    │
+│  │       │                        │                     │    │
+│  │       ▼                        ▼                     │    │
+│  │  Agent Generator ◄── Context Compressor (reused)     │    │
+│  │       │                                              │    │
+│  │       ▼                                              │    │
+│  │  Format Exporter (Claude/Cursor/System Prompt)       │    │
+│  │       │                                              │    │
+│  │       ▼                                              │    │
+│  │  Agent Quality Scorer (coverage/depth/specificity)   │    │
+│  └──────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐    │
 │  │              MIDDLEWARE                               │    │
 │  │  Rate Limiter (Redis INCR+EXPIRE, fail-open)        │    │
 │  │  Plan Enforcer (tier limits, project/doc caps)      │    │
@@ -47,10 +65,10 @@
 │  │ projects │ │   docs   │ │  search  │ │   auth       │   │
 │  └──────────┘ └──────────┘ └──────────┘ └──────────────┘   │
 │                                                              │
-│  ┌──────────┐ ┌──────────┐                                  │
-│  │  /api/   │ │  /gpt/   │                                  │
-│  │analytics │ │ actions  │                                  │
-│  └──────────┘ └──────────┘                                  │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐   │
+│  │  /api/   │ │  /gpt/   │ │  /api/   │ │   /api/      │   │
+│  │analytics │ │ actions  │ │  agents  │ │   configs    │   │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────────┘   │
 └──────────────────────┬───────────────────────────────────────┘
                        │
 ┌──────────────────────▼───────────────────────────────────────┐
@@ -64,6 +82,9 @@
 │  │ Projects   │ │ Similarity       │ │ Limit │ │ Process │ │
 │  │ Documents  │ │ Search           │ │ Cache │ │ Jobs    │ │
 │  │ Sessions   │ │                  │ │       │ │         │ │
+│  │ AgentConf  │ │                  │ │       │ │         │ │
+│  │ ConfigTmpl │ │                  │ │       │ │         │ │
+│  │ AgentSessn │ │                  │ │       │ │         │ │
 │  └────────────┘ └──────────────────┘ └───────┘ └─────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -81,6 +102,16 @@
 - **Platform Formatter** — Formats output for GPT (structured system messages) vs Claude (XML-tagged context blocks)
 - **Quality Scorer** — Weighted multi-dimensional scoring: coverage (0.35), relevance (0.30), diversity (0.20), compression (0.15). Produces 0-100 composite score with actionable suggestions
 
+### Agent Factory Engine (Pipeline B)
+- **Requirement Analyzer** — Extends Task Analyzer with stack detection (40+ technologies), role detection, complexity assessment, and search query generation
+- **Config Discovery** — Tiered web search for proven agent configs (Claude Code agents, Cursor rules, system prompts). Deduplicates via Jaccard similarity
+- **Config Parser** — Normalizes different config formats (YAML frontmatter, plain text conventions, structured prompts) into unified ParsedConfig schema
+- **Config Scorer** — Dual-axis scoring: Specificity (1-5, concrete conventions vs vague platitudes) + Relevance (1-5, stack/domain/role match). Combined threshold >= 7/10
+- **Config Library** — Curated index of proven configs with CRUD, search by stack/domain/category, usage tracking, and ratings
+- **Agent Generator** — Core synthesis: merges conventions (project first, then configs by score), tools (union), assigns model tier by complexity, builds source attribution
+- **Format Exporter** — Exports to Claude Code agent (.md with YAML frontmatter), Cursor rules (.cursorrules), and System prompt (plain text). Format-specific structure and conventions
+- **Agent Quality Scorer** — 4 weighted dimensions: config coverage (0.30), context depth (0.25), specificity (0.25), source diversity (0.20). Generates improvement suggestions
+
 ### Operations Layer (Layer 3)
 - **Rate Limiter** — Redis INCR+EXPIRE daily counters with fail-open. X-RateLimit headers on all responses. Configurable per plan tier (FREE 50/day, PRO 500/day, TEAM 2000/day)
 - **Plan Enforcer** — Structural limit enforcement: max projects, max docs per project, max file size. Tier cached in Redis with 5-min TTL
@@ -94,7 +125,7 @@
 
 ### Delivery Layer (Layer 4)
 - **Browser Extension** — Chrome MV3 with content scripts for chatgpt.com and claude.ai, side panel for context preview
-- **MCP Server** — Model Context Protocol server with tailor_context, search_docs, upload_document tools
+- **MCP Server** — Model Context Protocol server with tailor_context, search_docs, upload_document, generate_agent, browse_config_library, export_agent tools
 - **Custom GPT** — GPT Store listing with Actions calling the tailoring API
 - **REST API** — Public API for any integration
 - **Landing Page** — Marketing site with hero, features, pricing, and footer (React + Vite + Tailwind)

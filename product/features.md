@@ -21,7 +21,7 @@
 
 ### Delivery Platforms
 - **Browser Extension** — Chrome MV3 with content scripts for chatgpt.com and claude.ai, side panel for context preview and editing
-- **MCP Server** — Native Claude Desktop/Code integration via Model Context Protocol with 4 tools and 2 resource providers
+- **MCP Server** — Native Claude Desktop/Code integration via Model Context Protocol with 7 tools and 2 resource providers
 - **Custom GPT** — GPT Store listing with OpenAPI Actions calling the tailoring API
 - **REST API** — Public API for any integration
 
@@ -31,6 +31,16 @@
 - **Tailoring Session Viewer** — View context assembly history with source attribution
 - **Usage Analytics** — Session trends, quality trends, project stats, plan usage with charts
 - **Settings** — API key management, context preferences, plan management
+
+### Agent Factory (Pipeline B)
+- **Agent Generation** — Describe what you need (role, stack, domain) and get a production-ready agent definition with conventions, tools, and project context
+- **Config Discovery** — Automatically searches GitHub and the web for proven agent configurations (Claude Code agents, Cursor rules, system prompts)
+- **Config Library** — Curated index of high-quality, pre-scored config templates organized by stack, domain, and category
+- **Multi-Format Export** — Generate agents in Claude Code agent (.md), Cursor rules (.cursorrules), or System prompt formats
+- **Config Scoring** — Dual-axis quality assessment: Specificity (concrete conventions vs vague platitudes) + Relevance (stack/domain/role match)
+- **Agent Quality Scoring** — 4-dimension quality assessment: config coverage, context depth, specificity, source diversity
+- **Project Integration** — Optionally link a project to include compressed project documentation in the generated agent's context
+- **Source Attribution** — Every generated agent shows which online configs and project docs contributed to its definition
 
 ### Quality & Operations
 - **Quality Scoring** — 4 weighted sub-scores: coverage (0.35), relevance (0.30), diversity (0.20), compression (0.15). Composite 0-100 with actionable suggestions

@@ -13,7 +13,7 @@
 | M7 — Custom GPT | GPT Store listing with Actions for context retrieval | T034–T035 | DONE |
 | M8 — Launch | Quality scoring, analytics, rate limiting, landing page, tests, CI/CD | T036–T040 | DONE |
 
-**v1.0 delivered: 40/40 tasks, 8/8 phases, 42 commits, 38 tests passing.**
+**v1.0 delivered: 40/40 tasks, 8/8 phases, 42 commits, 162 tests passing.**
 
 ---
 
@@ -34,9 +34,33 @@ Zero-config setup for open-source adoption. T041–T052.
 
 ---
 
+## v1.2 — Agent Factory Pipeline (DONE)
+
+Dual-pipeline architecture: Pipeline A (context assembly) + Pipeline B (agent generation). Create specialized AI agents by combining curated/discovered configs with project documentation.
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| Zod schemas + Prisma models | AgentConfig, ConfigTemplate, AgentSession, AgentFormat enum | DONE |
+| Config parser | Normalize Claude Code agents, Cursor rules, system prompts | DONE |
+| Config discovery | Tiered web search for proven configs on GitHub | DONE |
+| Config scorer | Specificity + Relevance dual-axis scoring | DONE |
+| Config library | Curated index with CRUD, search, ratings, 9 built-in templates | DONE |
+| Agent generator | Merge conventions + tools from scored configs + project docs | DONE |
+| Format exporter | Claude Code (.md), Cursor rules (.cursorrules), System prompt | DONE |
+| Agent orchestrator | 10-step pipeline with graceful degradation | DONE |
+| Agent quality scorer | 4-dimension weighted quality assessment | DONE |
+| API routes | /api/agents (generate, list, detail, export, delete) + /api/configs (library, search) | DONE |
+| Dashboard pages | Agent Builder, Config Library, Agent Detail | DONE |
+| Extension tab | Agent Builder tab in sidepanel | DONE |
+| MCP tools | generate_agent, browse_config_library, export_agent | DONE |
+
+**31 new files, 9 modified, 4,330 lines added. 162 tests passing, typecheck clean.**
+
+---
+
 ## Future Roadmap
 
-### v1.2 — Publish & Distribute (Next)
+### v1.3 — Publish & Distribute (Next)
 
 Ship to npm, Docker Hub, and MCP registry so people can use it worldwide.
 
@@ -51,7 +75,7 @@ Ship to npm, Docker Hub, and MCP registry so people can use it worldwide.
 | OpenAPI docs | Swagger UI at `/api/docs` for interactive API exploration | P1 |
 | Homebrew formula | `brew install agenttailor` for Mac users | P2 |
 
-### v1.3 — Developer Tools
+### v1.4 — Developer Tools
 
 Expand beyond browser — meet developers where they work.
 
@@ -64,7 +88,7 @@ Expand beyond browser — meet developers where they work.
 | GitHub repo ingestion | Point at a repo URL, auto-index README, docs, and code | P0 |
 | Git watch mode | Auto-re-index when tracked files change | P2 |
 
-### v1.4 — Plugin Ecosystem
+### v1.5 — Plugin Ecosystem
 
 Extensible architecture so anyone can add sources, platforms, and models.
 
@@ -77,7 +101,7 @@ Extensible architecture so anyone can add sources, platforms, and models.
 | Plugin SDK | `@agenttailor/plugin-sdk` with typed interfaces and examples | P0 |
 | Plugin marketplace | Community-contributed plugins discoverable from dashboard | P2 |
 
-### v1.5 — Intelligence Upgrades
+### v1.6 — Intelligence Upgrades
 
 Make the context engine smarter and more adaptive.
 
@@ -91,7 +115,7 @@ Make the context engine smarter and more adaptive.
 | Context versioning | Snapshot and compare context strategies over time | P2 |
 | A/B testing | Compare context strategies and measure quality score differences | P2 |
 
-### v1.6 — Teams & Collaboration
+### v1.7 — Teams & Collaboration
 
 Make AgentTailor valuable for organizations, not just individuals.
 
@@ -105,7 +129,7 @@ Make AgentTailor valuable for organizations, not just individuals.
 | SSO | SAML 2.0 and OAuth for enterprise identity providers | P2 |
 | Usage reports | Per-team and per-user analytics, exportable CSV | P2 |
 
-### v1.7 — Enterprise & Self-Hosted
+### v1.8 — Enterprise & Self-Hosted
 
 Production-grade deployment for organizations with strict requirements.
 
