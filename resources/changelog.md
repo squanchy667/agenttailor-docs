@@ -6,6 +6,90 @@ All notable changes to AgentTailor will be documented in this file.
 
 <!-- Entries added automatically by /sync-docs and /execute-phase -->
 
+## [2026-02-18] Phase 8 — Polish & Launch
+
+### Batch 1
+- T036: Quality scoring system with sub-scores (coverage, diversity, relevance, compression) and suggestions — DONE
+- T039: Landing page with hero, features, pricing, and footer components — DONE
+
+### Batch 2
+- T037: Usage analytics dashboard with Recharts, session/quality trends, project stats, plan usage — DONE
+- T038: Rate limiting and plan enforcement with Redis (FREE 50/day, PRO 500/day, TEAM 2000/day) — DONE
+
+### Batch 3
+- T040: E2E tests (38 passing), Dockerfile, docker-compose.prod.yml, CI pipeline, Railway config — DONE
+
+## [2026-02-18] Phase 7 — Custom GPT
+
+### Batch 1
+- T034: GPT Action schema with OpenAPI 3.1 spec, API key auth, and /gpt/ endpoints — DONE
+
+### Batch 2
+- T035: GPT Store listing with system instructions, conversation starters, and privacy policy — DONE
+
+## [2026-02-17] Phase 6 — MCP Server
+
+### Batch 1
+- T031: MCP server with tailor_context tool and stdio transport — DONE
+
+### Batch 2
+- T032: search_docs, upload_document, and list_projects MCP tools — DONE
+- T033: Resource providers for documents and sessions — DONE
+
+## [2026-02-17] Phase 5 — Browser Extension
+
+### Batch 1
+- T025: Chrome extension shell with Manifest V3 and side panel — DONE
+
+### Batch 2
+- T026: ChatGPT content script with ProseMirror detection and injection — DONE
+- T027: Claude content script with contenteditable detection and injection — DONE
+- T028: Side panel UI with context preview and source list — DONE
+- T030: Extension settings with project selector and storage wrapper — DONE
+
+### Batch 3
+- T029: Context injection flow with tailor bridge and auto-tailor mode — DONE
+
+## [2026-02-17] Phase 4 — Dashboard Frontend
+
+### Batch 1
+- T019: React dashboard scaffold with Clerk auth flow — DONE
+
+### Batch 2
+- T020: Base UI components, API client, and React Query setup — DONE
+
+### Batch 3
+- T021: Project management pages with CRUD and detail view — DONE
+- T022: Document upload UI with drag-and-drop and processing status — DONE
+- T023: Tailoring session viewer with context display and history — DONE
+- T024: Settings page with API key management and context preferences — DONE
+
+## [2026-02-17] Phase 3 — Web Search Integration
+
+### Batch 1
+- T016: Web search API client with Tavily and Brave providers — DONE
+
+### Batch 2
+- T017: Gap-triggered web search with result processing — DONE
+
+### Batch 3
+- T018: Citation tracking with source attribution — DONE
+
+## [2026-02-17] Phase 2 — Context Intelligence Engine
+
+### Batch 1
+- T009: Task analyzer module with domain classification — DONE
+- T010: Relevance scorer with cross-encoder reranking — DONE
+- T012: Context compressor with hierarchical compression — DONE
+- T014: Context window manager with token budgeting — DONE
+
+### Batch 2
+- T011: Gap detector with coverage analysis — DONE
+- T013: Source synthesizer with dedup and priority ranking — DONE
+
+### Batch 3
+- T015: Tailoring orchestration endpoint with full pipeline — DONE
+
 ## [2026-02-17] Phase 1 — Foundation
 
 ### Batch 1
