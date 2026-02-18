@@ -23,7 +23,9 @@
 | OpenAI SDK | ^4 | Embedding generation (ada-002) |
 | Tavily SDK | latest | Web search API |
 | Chrome MV3 | — | Browser extension platform |
-| MCP SDK | latest | Model Context Protocol for Claude |
+| MCP SDK | ^0.5.0 | Model Context Protocol for Claude |
+| ioredis | ^5 | Redis client for rate limiting and caching |
+| Recharts | ^2 | Chart library for analytics dashboard |
 
 ## Rationale
 

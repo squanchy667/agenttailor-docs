@@ -31,12 +31,26 @@
 │  │       │                                              │    │
 │  │       ▼                                              │    │
 │  │  Platform Formatter (GPT format / Claude format)     │    │
+│  │       │                                              │    │
+│  │       ▼                                              │    │
+│  │  Quality Scorer (coverage/diversity/relevance/comp.) │    │
+│  └──────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐    │
+│  │              MIDDLEWARE                               │    │
+│  │  Rate Limiter (Redis INCR+EXPIRE, fail-open)        │    │
+│  │  Plan Enforcer (tier limits, project/doc caps)      │    │
 │  └──────────────────────────────────────────────────────┘    │
 │                                                              │
 │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐   │
 │  │  /api/   │ │  /api/   │ │  /api/   │ │    /api/     │   │
 │  │ projects │ │   docs   │ │  search  │ │   auth       │   │
 │  └──────────┘ └──────────┘ └──────────┘ └──────────────┘   │
+│                                                              │
+│  ┌──────────┐ ┌──────────┐                                  │
+│  │  /api/   │ │  /gpt/   │                                  │
+│  │analytics │ │ actions  │                                  │
+│  └──────────┘ └──────────┘                                  │
 └──────────────────────┬───────────────────────────────────────┘
                        │
 ┌──────────────────────▼───────────────────────────────────────┐
@@ -65,6 +79,12 @@
 - **Priority Ranker** — Final ranking by (1) relevance, (2) recency, (3) source authority, (4) specificity
 - **Context Window Manager** — Token budget tracking per model (128K GPT-4, 200K Claude), allocates across sections
 - **Platform Formatter** — Formats output for GPT (structured system messages) vs Claude (XML-tagged context blocks)
+- **Quality Scorer** — Weighted multi-dimensional scoring: coverage (0.35), relevance (0.30), diversity (0.20), compression (0.15). Produces 0-100 composite score with actionable suggestions
+
+### Operations Layer (Layer 3)
+- **Rate Limiter** — Redis INCR+EXPIRE daily counters with fail-open. X-RateLimit headers on all responses. Configurable per plan tier (FREE 50/day, PRO 500/day, TEAM 2000/day)
+- **Plan Enforcer** — Structural limit enforcement: max projects, max docs per project, max file size. Tier cached in Redis with 5-min TTL
+- **Analytics Service** — Usage aggregation: sessions over time, quality trends, project stats, plan usage, summary statistics. Powers the analytics dashboard
 
 ### Document Processing Pipeline (Layer 1)
 - **Text Extractor** — Handles PDF, DOCX, Markdown, plain text, and code files
@@ -77,6 +97,7 @@
 - **MCP Server** — Model Context Protocol server with tailor_context, search_docs, upload_document tools
 - **Custom GPT** — GPT Store listing with Actions calling the tailoring API
 - **REST API** — Public API for any integration
+- **Landing Page** — Marketing site with hero, features, pricing, and footer (React + Vite + Tailwind)
 
 ## Technology Choices
 
@@ -100,9 +121,10 @@
 - Chrome extension loaded unpacked
 
 ### Production
-- API: Railway/Render (MVP) or AWS (production)
+- API: Railway (Dockerfile multi-stage build, health check at /health)
 - Database: Managed PostgreSQL
 - Vectors: Pinecone cloud
 - Cache: Managed Redis
 - Auth: Clerk
 - Extension: Chrome Web Store
+- CI: GitHub Actions (lint → typecheck → test → docker build)
