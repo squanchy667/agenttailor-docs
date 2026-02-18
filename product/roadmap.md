@@ -17,23 +17,41 @@
 
 ---
 
+## v1.1 — Local Mode (DONE)
+
+Zero-config setup for open-source adoption. T041–T052.
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| Local auth mode | `AUTH_MODE=local` — no Clerk, auto-created local user | DONE |
+| Local embeddings | `EMBEDDING_PROVIDER=local` — @xenova/transformers, Xenova/all-MiniLM-L6-v2 | DONE |
+| Noop cross-encoder | Cosine-only scoring, no Cohere/OpenAI API needed | DONE |
+| Setup script | `npm run setup` — docker, install, db push, seed | DONE |
+| Seed data | Default user + "Getting Started" project | DONE |
+| MCP port fix | Default `localhost:4000` matches actual server port | DONE |
+| .env.local.example | Minimal env for local mode | DONE |
+| Smoke tests | 6 new tests (162 total passing) | DONE |
+
+---
+
 ## Future Roadmap
 
-### v1.1 — Open-Source Ready
+### v1.2 — Publish & Distribute (Next)
 
-Make AgentTailor a polished, community-friendly open-source project.
+Ship to npm, Docker Hub, and MCP registry so people can use it worldwide.
 
 | Feature | Description | Priority |
 |---------|-------------|----------|
-| MIT License | Open-source under MIT | P0 |
-| CONTRIBUTING.md | Contributor guidelines, PR process, dev setup | P0 |
-| Quick-start script | `npx create-agenttailor` or one-liner Docker setup | P0 |
+| npm publish `agent-tailor-mcp` | `npx agent-tailor-mcp` just works as MCP server | P0 |
+| Docker Compose one-liner | `docker compose up` starts full stack (server + db + redis + chroma) | P0 |
+| GitHub release | Tagged release with changelog, install instructions, GIF demo | P0 |
+| MCP Registry listing | Submit to official MCP server directory | P0 |
+| Chrome Web Store | Publish extension for ChatGPT + Claude context injection | P0 |
+| GPT Store listing | Publish Custom GPT with Actions pointing at hosted/self-hosted API | P1 |
 | OpenAPI docs | Swagger UI at `/api/docs` for interactive API exploration | P1 |
-| Local-only mode | Run entirely without cloud APIs (local embeddings + local search) | P1 |
-| .env validator | Startup check that validates all required env vars are set | P1 |
-| Seed data | Example project with sample documents for quick demo | P1 |
+| Homebrew formula | `brew install agenttailor` for Mac users | P2 |
 
-### v1.2 — Developer Tools
+### v1.3 — Developer Tools
 
 Expand beyond browser — meet developers where they work.
 
@@ -46,7 +64,7 @@ Expand beyond browser — meet developers where they work.
 | GitHub repo ingestion | Point at a repo URL, auto-index README, docs, and code | P0 |
 | Git watch mode | Auto-re-index when tracked files change | P2 |
 
-### v1.3 — Plugin Ecosystem
+### v1.4 — Plugin Ecosystem
 
 Extensible architecture so anyone can add sources, platforms, and models.
 
@@ -59,7 +77,7 @@ Extensible architecture so anyone can add sources, platforms, and models.
 | Plugin SDK | `@agenttailor/plugin-sdk` with typed interfaces and examples | P0 |
 | Plugin marketplace | Community-contributed plugins discoverable from dashboard | P2 |
 
-### v1.4 — Intelligence Upgrades
+### v1.5 — Intelligence Upgrades
 
 Make the context engine smarter and more adaptive.
 
@@ -73,7 +91,7 @@ Make the context engine smarter and more adaptive.
 | Context versioning | Snapshot and compare context strategies over time | P2 |
 | A/B testing | Compare context strategies and measure quality score differences | P2 |
 
-### v1.5 — Teams & Collaboration
+### v1.6 — Teams & Collaboration
 
 Make AgentTailor valuable for organizations, not just individuals.
 
@@ -87,7 +105,7 @@ Make AgentTailor valuable for organizations, not just individuals.
 | SSO | SAML 2.0 and OAuth for enterprise identity providers | P2 |
 | Usage reports | Per-team and per-user analytics, exportable CSV | P2 |
 
-### v1.6 — Enterprise & Self-Hosted
+### v1.7 — Enterprise & Self-Hosted
 
 Production-grade deployment for organizations with strict requirements.
 
